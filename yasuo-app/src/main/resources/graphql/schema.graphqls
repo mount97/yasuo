@@ -1,0 +1,10 @@
+type Query {
+    findAll: [Event]
+}
+
+type Event {
+    id: ID
+    name: String
+    content: String
+    createdDate: String
+}
