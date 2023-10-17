@@ -1,0 +1,14 @@
+spring:
+  data:
+    mongodb:
+      uri: ${mongodbUri}
+      user: ${mongodbPassword}
+      password: ${mongodbPassword}
+  graphql:
+    graphiql:
+      enabled: true
+
+server:
+  port: 8888
+  servlet:
+    context-path: /yasuo
