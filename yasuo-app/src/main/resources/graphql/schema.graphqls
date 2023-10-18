@@ -1,5 +1,21 @@
 type Query {
+    refreshToken: JwtAuthenticationResponse
     findAll: [Event]
+}
+
+type Mutation {
+    login(loginRequest: LoginRequest!): JwtAuthenticationResponse
+}
+
+input LoginRequest {
+    username: String
+    password: String
+}
+
+type JwtAuthenticationResponse {
+    accessToken: String
+    refreshToken: String
+    username: String
 }
 
 type Event {

@@ -12,3 +12,11 @@ server:
   port: 8888
   servlet:
     context-path: /yasuo
+
+application:
+  security:
+    jwt:
+      signing-key: F2D9D8B5D501693B83E69AA0DCFA3F470C467F2A54949C8667168A6E09A2DDBC
+      expiration: 3600000 # 1 hour
+      refresh-token:
+        expiration: 86400000 # 1 day

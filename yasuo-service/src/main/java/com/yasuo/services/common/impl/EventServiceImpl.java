@@ -1,17 +1,17 @@
-package com.yasuo.services.impl;
+package com.yasuo.services.common.impl;
 
 import com.yasuo.models.Event;
 import com.yasuo.repository.EventRepository;
-import com.yasuo.services.EventService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.yasuo.services.common.EventService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
-    @Autowired
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
 
     @Override
     public List<Event> findAll() {

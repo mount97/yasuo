@@ -1,4 +1,4 @@
-package com.yasuo.services;
+package com.yasuo.services.common;
 
 import com.yasuo.models.Event;
 import org.springframework.stereotype.Repository;
