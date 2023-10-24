@@ -1,5 +1,6 @@
 package com.yasuo.services.auth.impl;
 
+import com.yasuo.constants.AuthConstants;
 import com.yasuo.dtos.authentication.AuthenticationResponse;
 import com.yasuo.dtos.authentication.LoginRequest;
 import com.yasuo.repository.UserRepository;
@@ -45,7 +46,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponse refreshToken(String authHeader) {
         final String refreshToken;
         final String username;
-        if (StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, "Bearer ")) {
+        if (StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, AuthConstants.BEARER + " ")) {
             throw new IllegalArgumentException("Invalid Authorization header.");
         }
         try {

@@ -1,5 +1,6 @@
 package com.yasuo.filters;
 
+import com.yasuo.constants.AuthConstants;
 import com.yasuo.services.auth.JwtService;
 import com.yasuo.services.auth.UserService;
 import jakarta.servlet.FilterChain;
@@ -29,10 +30,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
-        final String authHeader = request.getHeader("Authorization");
+        final String authHeader = request.getHeader(AuthConstants.AUTHORIZATION);
         final String jwt;
         final String username;
-        if (StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, "Bearer ")) {
+        if (StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, AuthConstants.BEARER + " ")) {
             filterChain.doFilter(request, response);
             return;
         }
