@@ -1,0 +1,14 @@
+version: '1.0'
+services:
+  yasuo-app:
+    container_name: yasuo-app
+    build:
+      context: yasuo-app
+      dockerfile: Dockerfile
+    image: yasuo-app:latest
+    environment:
+      - mongodbUser=yasuo-app
+      - mongodbPassword=hCjbKt6Q44JP8XsG
+      - mongodbUri=mongodb+srv://yasuo-app:hCjbKt6Q44JP8XsG@yasuo.ebqizwv.mongodb.net/yasuo
+    ports:
+      - "8888:8888"
