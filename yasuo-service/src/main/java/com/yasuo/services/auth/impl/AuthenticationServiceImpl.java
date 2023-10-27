@@ -1,9 +1,8 @@
 package com.yasuo.services.auth.impl;
 
-import com.yasuo.constants.AuthConstants;
 import com.yasuo.dtos.authentication.AuthenticationResponse;
 import com.yasuo.dtos.authentication.LoginRequest;
-import com.yasuo.repository.UserRepository;
+import com.yasuo.models.User;
 import com.yasuo.services.auth.AuthenticationService;
 import com.yasuo.services.auth.JwtService;
 import com.yasuo.services.auth.UserService;
@@ -13,8 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -30,9 +29,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse login(LoginRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        var user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid username or password."));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        User user = (User) authentication.getPrincipal();
         var accessToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         return AuthenticationResponse.builder()
@@ -43,29 +42,28 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public AuthenticationResponse refreshToken(String authHeader) {
-        final String refreshToken;
-        final String username;
-        if (StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, AuthConstants.BEARER + " ")) {
-            throw new IllegalArgumentException("Invalid Authorization header.");
+    public AuthenticationResponse refreshToken(String refreshToken) {
+        if (StringUtils.isEmpty(refreshToken)) {
+            throw new IllegalArgumentException("refreshToken cannot be null");
         }
+        final String username;
         try {
-            refreshToken = authHeader.substring(7);
             username = jwtService.extractUserName(refreshToken);
             if (StringUtils.isNotEmpty(username)) {
                 UserDetails userDetails = userService.userDetailsService().loadUserByUsername(username);
+                var newRefreshToken = jwtService.generateRefreshToken(userDetails);
                 if (jwtService.isTokenValid(refreshToken, userDetails)) {
                     var accessToken = jwtService.generateToken(userDetails);
                     return AuthenticationResponse.builder()
                             .accessToken(accessToken)
-                            .refreshToken(refreshToken)
+                            .refreshToken(newRefreshToken)
                             .username(username)
                             .build();
                 }
             }
         } catch (Exception ex) {
-            logger.error("Invalid refresh token.");
+            logger.error("Exception while processing refresh token: {}", ex.getMessage());
         }
-        throw new UsernameNotFoundException("Invalid refresh token.");
+        throw new IllegalArgumentException("Invalid refresh token.");
     }
 }

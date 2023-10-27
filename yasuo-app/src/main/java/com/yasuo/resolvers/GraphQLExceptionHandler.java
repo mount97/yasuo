@@ -5,6 +5,7 @@ import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;
 import org.springframework.graphql.execution.DataFetcherExceptionResolverAdapter;
 import org.springframework.graphql.execution.ErrorType;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,8 @@ public class GraphQLExceptionHandler extends DataFetcherExceptionResolverAdapter
     protected GraphQLError resolveToSingleError(Throwable ex, DataFetchingEnvironment env) {
         if (ex instanceof AuthenticationException) {
             return constructGraphQLError(ErrorType.UNAUTHORIZED, ex, env);
+        } else if (ex instanceof AccessDeniedException) {
+            return constructGraphQLError(ErrorType.FORBIDDEN, ex, env);
         } else if (ex instanceof IllegalArgumentException) {
             return constructGraphQLError(ErrorType.BAD_REQUEST, ex, env);
         } else {

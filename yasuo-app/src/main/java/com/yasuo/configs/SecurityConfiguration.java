@@ -51,6 +51,9 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
+//                .exceptionHandling(exception -> exception.authenticationEntryPoint((request, response, authException) -> {
+//                    throw authException;
+//                }))
                 .authorizeHttpRequests(request -> request
 //                        .requestMatchers(WHITE_LIST_URL)
 //                        .permitAll()
