@@ -51,18 +51,15 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-//                .exceptionHandling(exception -> exception.authenticationEntryPoint((request, response, authException) -> {
-//                    throw authException;
-//                }))
+                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(request -> request
 //                        .requestMatchers(WHITE_LIST_URL)
 //                        .permitAll()
 //                        .requestMatchers(HttpMethod.POST, "/graphql")
 //                        .hasRole("ADMIN")
                         .anyRequest().permitAll())
-                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
-                .authenticationProvider(authenticationProvider()).addFilterBefore(
-                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -79,7 +76,6 @@ public class SecurityConfiguration {
         return authProvider;
     }
 
-    //TODO: check this bean
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
             throws Exception {
