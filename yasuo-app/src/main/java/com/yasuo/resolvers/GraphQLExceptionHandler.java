@@ -12,15 +12,14 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import static com.yasuo.constants.AuthConstants.COMMON_ERROR_MESSAGE;
-import static com.yasuo.constants.AuthConstants.UNAUTHORIZED_ERROR_MESSAGE;
+import static com.yasuo.constants.AuthConstants.*;
 
 @Component
 public class GraphQLExceptionHandler extends DataFetcherExceptionResolverAdapter {
     @Override
     protected GraphQLError resolveToSingleError(Throwable ex, DataFetchingEnvironment env) {
         if (ex instanceof AuthenticationException) {
-            return constructGraphQLError(UNAUTHORIZED_ERROR_MESSAGE, ErrorType.UNAUTHORIZED, ex, env);
+            return constructGraphQLError(BAD_CREDENTIALS_ERROR_MESSAGE, ErrorType.UNAUTHORIZED, ex, env);
         } else if (ex instanceof AccessDeniedException) {
             if (SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken) {
                 return constructGraphQLError(UNAUTHORIZED_ERROR_MESSAGE, ErrorType.UNAUTHORIZED, ex, env);
