@@ -1,5 +1,5 @@
 type Query {
-    refreshToken(refreshToken: String!): AuthenticationResponse
+    refreshToken(userFingerprintHash: String!): AuthenticationResponse
     findAll: [Event]
 }
 
@@ -14,8 +14,6 @@ input LoginRequest {
 
 type AuthenticationResponse {
     accessToken: String
-    refreshToken: String
-    username: String
 }
 
 type Event {

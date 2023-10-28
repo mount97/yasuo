@@ -9,18 +9,21 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthenticationService authenticationService;
 
     @MutationMapping(value = "login")
-    public AuthenticationResponse login(@Argument LoginRequest loginRequest) {
+    public AuthenticationResponse login(@Argument LoginRequest loginRequest) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         return authenticationService.login(loginRequest);
     }
 
     @QueryMapping(value = "refreshToken")
-    public AuthenticationResponse refreshToken(@Argument String refreshToken) {
-        return authenticationService.refreshToken(refreshToken);
+    public AuthenticationResponse refreshToken(@Argument String userFingerprintHash) throws NoSuchAlgorithmException {
+        return authenticationService.refreshToken(userFingerprintHash);
     }
 }
