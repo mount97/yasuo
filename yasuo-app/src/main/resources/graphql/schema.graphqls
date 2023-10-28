@@ -1,10 +1,10 @@
 type Query {
-    refreshToken: JwtAuthenticationResponse
+    refreshToken(refreshToken: String!): AuthenticationResponse
     findAll: [Event]
 }
 
 type Mutation {
-    login(loginRequest: LoginRequest!): JwtAuthenticationResponse
+    login(loginRequest: LoginRequest!): AuthenticationResponse
 }
 
 input LoginRequest {
@@ -12,7 +12,7 @@ input LoginRequest {
     password: String
 }
 
-type JwtAuthenticationResponse {
+type AuthenticationResponse {
     accessToken: String
     refreshToken: String
     username: String
