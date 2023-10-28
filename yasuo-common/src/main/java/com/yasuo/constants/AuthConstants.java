@@ -14,4 +14,5 @@ public class AuthConstants {
     public static final String REFRESH_TOKEN_COOKIE_NAME = "__Refresh-tk";
     public static final String SAME_SITE  = "SameSite";
     public static final String FINGERPRINT_CLAIM_NAME  = "userFingerPrint";
+    public static final String FINGERPRINT_CLAIM_NAMEz  = "userFingerPrint";
 }
