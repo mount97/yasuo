@@ -1,21 +1,9 @@
 type Query {
-    refreshToken(refreshToken: String!): AuthenticationResponse
     findAll: [Event]
 }
 
 type Mutation {
-    login(loginRequest: LoginRequest!): AuthenticationResponse
-}
 
-input LoginRequest {
-    username: String
-    password: String
-}
-
-type AuthenticationResponse {
-    accessToken: String
-    refreshToken: String
-    username: String
 }
 
 type Event {
@@ -23,4 +11,12 @@ type Event {
     name: String
     content: String
     createdDate: String
+}
+
+type UserDto {
+    username: String
+    password: String
+    email: String
+    firstName: String
+    lastName: String
 }
