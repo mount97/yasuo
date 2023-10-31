@@ -3,6 +3,7 @@ package com.yasuo.services.auth.impl;
 import com.yasuo.constants.AuthConstants;
 import com.yasuo.dtos.authentication.AuthenticationResponse;
 import com.yasuo.dtos.authentication.LoginRequest;
+import com.yasuo.dtos.authentication.ResponseDto;
 import com.yasuo.models.User;
 import com.yasuo.services.auth.AuthenticationService;
 import com.yasuo.services.auth.JwtService;
@@ -69,6 +70,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         Cookie[] cookies = httpServletRequest.getCookies();
+        if(cookies == null) {
+            logger.debug("Cookie is null");
+            throw new IllegalArgumentException("Unable to refresh JWT token");
+        }
         Optional<Cookie> userFingerprintCookie = Arrays.stream(cookies).filter(c -> AuthConstants.FINGERPRINT_COOKIE_NAME.equalsIgnoreCase(c.getName())).findFirst();
         Optional<Cookie> refreshTokenCookie = Arrays.stream(cookies).filter(c -> AuthConstants.REFRESH_TOKEN_COOKIE_NAME.equalsIgnoreCase(c.getName())).findFirst();
 
@@ -144,5 +149,28 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] userFingerprintDigest = digest.digest(userFingerprint.getBytes(StandardCharsets.UTF_8));
         return DatatypeConverter.printHexBinary(userFingerprintDigest);
+    }
+
+    private void clearFingerPrintCookie() {
+        Cookie cookie = setFingerPrintCookie(null);
+        cookie.setMaxAge(0);
+        httpServletResponse.addCookie(cookie);
+    }
+
+    private void clearRefreshTokenCookie() {
+        Cookie cookie = setRefreshTokenCookie(null);
+        cookie.setMaxAge(0);
+        httpServletResponse.addCookie(cookie);
+    }
+
+    @Override
+    public ResponseDto logout() {
+        clearRefreshTokenCookie();
+        clearFingerPrintCookie();
+        return ResponseDto.builder()
+                .code(200)
+                .success(true)
+                .message("Logout successfully")
+                .build();
     }
 }

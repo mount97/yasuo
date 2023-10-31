@@ -5,6 +5,7 @@ type Query {
 
 type Mutation {
     login(loginRequest: LoginRequest!): AuthenticationResponse
+    logout: ResponseDto
 }
 
 input LoginRequest {
@@ -21,4 +22,10 @@ type Event {
     name: String
     content: String
     createdDate: String
+}
+
+type ResponseDto {
+    code: Int
+    success: Boolean
+    message: String
 }

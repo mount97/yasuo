@@ -2,6 +2,7 @@ package com.yasuo.controllers;
 
 import com.yasuo.dtos.authentication.AuthenticationResponse;
 import com.yasuo.dtos.authentication.LoginRequest;
+import com.yasuo.dtos.authentication.ResponseDto;
 import com.yasuo.services.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -25,5 +26,10 @@ public class AuthController {
     @QueryMapping(value = "refreshToken")
     public AuthenticationResponse refreshToken(@Argument String userFingerprintHash) throws NoSuchAlgorithmException {
         return authenticationService.refreshToken(userFingerprintHash);
+    }
+
+    @MutationMapping(value = "logout")
+    public ResponseDto logout() {
+        return authenticationService.logout();
     }
 }

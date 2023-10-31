@@ -2,6 +2,7 @@ package com.yasuo.services.auth;
 
 import com.yasuo.dtos.authentication.AuthenticationResponse;
 import com.yasuo.dtos.authentication.LoginRequest;
+import com.yasuo.dtos.authentication.ResponseDto;
 import org.springframework.stereotype.Repository;
 
 import java.io.UnsupportedEncodingException;
@@ -14,4 +15,5 @@ public interface AuthenticationService {
     AuthenticationResponse login(LoginRequest request) throws NoSuchAlgorithmException, UnsupportedEncodingException;
 
     AuthenticationResponse refreshToken(String userFingerprintHash) throws NoSuchAlgorithmException;
+    ResponseDto logout();
 }
