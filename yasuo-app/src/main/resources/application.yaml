@@ -20,3 +20,6 @@ application:
       expiration: 3600000 # 1 hour
       refresh-token:
         expiration: 86400000 # 1 day
+
+cookie:
+  same-site: ${sameSiteValue}
