@@ -1,0 +1,42 @@
+extend type Mutation {
+    createOrUpdateGroup(request: CreateOrUpdateGroupRequest): CreateOrUpdateGroupResponse
+}
+
+type GroupProperties {
+    status: GroupStatus
+    avatarUrl: String
+    backgroundUrl: String
+}
+
+type Group {
+    id: ID
+    name: String!
+    groupProperties: GroupProperties
+    admin: UserDto
+    createdBy: UserDto
+    createdDate: String
+    modifiedDate: String
+}
+
+type CreateOrUpdateGroupResponse {
+    code: Int
+    message: String
+    responseData: Group
+}
+
+input GroupPropertiesRequest {
+    status: String
+    avatarUrl: String
+    backgroundUrl: String
+}
+
+input CreateOrUpdateGroupRequest {
+    id: String
+    name: String
+    groupProperties: GroupPropertiesRequest
+}
+
+enum GroupStatus {
+    PUBLIC
+    PRIVATE
+}

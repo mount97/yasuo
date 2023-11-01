@@ -1,0 +1,8 @@
+type Comment {
+    id: ID
+    content: String
+    commentedBy: String
+    isDeleted: UserDto
+    createdDate: String
+    modifiedDate: String
+}
