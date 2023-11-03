@@ -1,20 +1,9 @@
 type Query {
-    refreshToken(userFingerprintHash: String!): AuthenticationResponse
     findAll: [Event]
 }
 
 type Mutation {
-    login(loginRequest: LoginRequest!): AuthenticationResponse
-    logout: ResponseDto
-}
 
-input LoginRequest {
-    username: String
-    password: String
-}
-
-type AuthenticationResponse {
-    accessToken: String
 }
 
 type Event {
@@ -24,8 +13,10 @@ type Event {
     createdDate: String
 }
 
-type ResponseDto {
-    code: Int
-    success: Boolean
-    message: String
+type UserDto {
+    username: String
+    password: String
+    email: String
+    firstName: String
+    lastName: String
 }
