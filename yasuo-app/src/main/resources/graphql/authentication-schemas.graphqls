@@ -4,12 +4,17 @@ extend type Query {
 
 extend type Mutation {
     login(loginRequest: LoginRequest!): AuthenticationResponse
+    logout: ResponseDto
 }
 
 type AuthenticationResponse {
     accessToken: String
-    refreshToken: String
-    username: String
+}
+
+type ResponseDto {
+    code: Int
+    success: Boolean
+    message: String
 }
 
 input LoginRequest {
