@@ -4,9 +4,6 @@ spring:
       uri: ${mongodbUri}
       user: ${mongodbPassword}
       password: ${mongodbPassword}
-  graphql:
-    graphiql:
-      enabled: true
 
 server:
   port: 8888
@@ -23,3 +20,8 @@ application:
 
 cookie:
   same-site: ${sameSiteValue}
+
+dgs:
+  graphql:
+    schema-locations:
+      - classpath*:graphql-schemas/**/*.graphql*

@@ -20,6 +20,7 @@ public class Comment {
     private String content;
     private String commentedBy;
     private boolean isDeleted;
+    @Builder.Default
     private LocalDateTime createdDate = LocalDateTime.now();
     private LocalDateTime modifiedDate;
 }
