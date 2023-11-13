@@ -29,6 +29,7 @@ public class Post {
     @DBRef
     private List<Comment> commentList;
     private boolean isDeleted;
+    @Builder.Default
     private LocalDateTime createdDate = LocalDateTime.now();
     private LocalDateTime modifiedDate;
 }

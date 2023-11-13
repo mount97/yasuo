@@ -21,11 +21,14 @@ public class Group {
     @Id
     private String id;
     private String name;
+    @Builder.Default
     private GroupProperties groupProperties = new GroupProperties();
+    @Builder.Default
     private List<String> memberIdsList = new ArrayList<>();
     private List<String> adminIds;
     private String createdBy;
     private boolean isDeleted;
+    @Builder.Default
     private LocalDateTime createdDate = LocalDateTime.now();
     private LocalDateTime modifiedDate;
 }
