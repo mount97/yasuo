@@ -7,8 +7,8 @@ services:
       dockerfile: Dockerfile
     image: yasuo-app:latest
     environment:
-      - mongodbUser=yasuo-app
-      - mongodbPassword=hCjbKt6Q44JP8XsG
-      - mongodbUri=mongodb+srv://yasuo-app:hCjbKt6Q44JP8XsG@yasuo.ebqizwv.mongodb.net/yasuo
+      - mongodbUser=${mongodbUser}
+      - mongodbPassword=${mongodbPassword}
+      - mongodbUri=${mongodbUri}
     ports:
       - "8888:8888"
