@@ -5,6 +5,11 @@ spring:
       user: ${mongodbPassword}
       password: ${mongodbPassword}
       auto-index-creation: true
+  servlet:
+    multipart:
+      enabled: true
+      max-request-size: 10MB
+      max-file-size: 10MB
 
 server:
   port: 8888

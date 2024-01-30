@@ -1,6 +1,8 @@
 extend type Mutation {
     createOrUpdateGroup(request: CreateOrUpdateGroupRequest, avatarFile: Upload): CreateOrUpdateGroupResponse
     deleteGroup(groupId: String!): DeleteGroupResponse
+    uploadAvatarGroup(groupId: String!, imageFile: Upload): Group
+    uploadBackGroundGroup(groupId: String!, backgroundFile: Upload): Group
 }
 
 extend type Query {
