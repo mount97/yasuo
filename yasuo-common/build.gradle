@@ -16,4 +16,7 @@ dependencies {
     api 'jakarta.xml.bind:jakarta.xml.bind-api'
 }
 
+bootJar.enabled = false
+jar.enabled = true
+
 description = 'yasuo-common'

@@ -4,6 +4,7 @@ spring:
       uri: ${mongodbUri}
       user: ${mongodbPassword}
       password: ${mongodbPassword}
+      auto-index-creation: true
 
 server:
   port: 8888
@@ -25,3 +26,11 @@ dgs:
   graphql:
     schema-locations:
       - classpath*:graphql-schemas/**/*.graphql*
+
+graphql:
+  datetime:
+    scalars:
+      local-date:
+        format: yyyy-MM-dd
+      local-date-time:
+        format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'

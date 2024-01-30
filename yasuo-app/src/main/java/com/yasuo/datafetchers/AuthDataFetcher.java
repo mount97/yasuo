@@ -6,7 +6,7 @@ import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
 import com.yasuo.dtos.authentication.AuthenticationResponse;
 import com.yasuo.dtos.authentication.LoginRequest;
-import com.yasuo.dtos.authentication.ResponseDto;
+import com.yasuo.dtos.common.ResponseData;
 import com.yasuo.services.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +29,7 @@ public class AuthDataFetcher {
     }
 
     @DgsQuery
-    public ResponseDto logout() {
+    public ResponseData<String> logout() {
         return authenticationService.logout();
     }
 }

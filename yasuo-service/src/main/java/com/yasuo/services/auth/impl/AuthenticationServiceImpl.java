@@ -3,7 +3,7 @@ package com.yasuo.services.auth.impl;
 import com.yasuo.constants.AuthConstants;
 import com.yasuo.dtos.authentication.AuthenticationResponse;
 import com.yasuo.dtos.authentication.LoginRequest;
-import com.yasuo.dtos.authentication.ResponseDto;
+import com.yasuo.dtos.common.ResponseData;
 import com.yasuo.models.User;
 import com.yasuo.services.auth.AuthenticationService;
 import com.yasuo.services.auth.JwtService;
@@ -18,6 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,6 +36,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+import static com.yasuo.constants.AuthConstants.UNAUTHORIZED_ERROR_MESSAGE;
 
 @Service
 @RequiredArgsConstructor
@@ -164,13 +168,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public ResponseDto logout() {
+    public ResponseData<String> logout() {
         clearRefreshTokenCookie();
         clearFingerPrintCookie();
-        return ResponseDto.builder()
+        return ResponseData.<String>builder()
                 .code(200)
-                .success(true)
                 .message("Logout successfully")
+                .responseData(null)
                 .build();
+    }
+
+    @Override
+    public User getCurrentUser() {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+                return (User) authentication.getPrincipal();
+            }
+        } catch (Exception ex) {
+            logger.error("Exception while getting current user: {}", ex.getMessage());
+            throw ex;
+        }
+        throw new AccessDeniedException(UNAUTHORIZED_ERROR_MESSAGE);
     }
 }

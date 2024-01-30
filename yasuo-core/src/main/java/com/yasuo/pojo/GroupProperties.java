@@ -1,6 +1,7 @@
 package com.yasuo.pojo;
 
 import com.yasuo.enums.GroupStatus;
+import com.yasuo.models.Image;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class GroupProperties {
     private GroupStatus status;
-    private String avatarUrl;
-    private String backgroundUrl;
+    private Image avatar;
+    private Image background;
 }

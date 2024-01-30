@@ -1,3 +1,6 @@
+scalar LocalDateTime
+scalar Upload
+
 type Query {
     findAll: [Event]
 }
