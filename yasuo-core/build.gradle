@@ -9,7 +9,10 @@ plugins {
 }
 
 dependencies {
-    api 'org.springframework.boot:spring-boot-starter-data-mongodb:3.1.4'
+    api 'org.springframework.boot:spring-boot-starter-data-mongodb'
 }
+
+bootJar.enabled = false
+jar.enabled = true
 
 description = 'yasuo-core'

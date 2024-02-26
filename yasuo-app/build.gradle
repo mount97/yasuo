@@ -12,4 +12,7 @@ dependencies {
     api project(':yasuo-service')
 }
 
+bootJar.enabled = true
+jar.enabled = true
+
 description = 'yasuo-app'

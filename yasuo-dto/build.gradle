@@ -8,4 +8,7 @@ plugins {
     id 'com.yasuo.java-conventions'
 }
 
+bootJar.enabled = false
+jar.enabled = true
+
 description = 'yasuo-dto'

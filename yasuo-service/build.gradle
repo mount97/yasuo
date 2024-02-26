@@ -9,8 +9,11 @@ plugins {
 }
 
 dependencies {
-    implementation project(':yasuo-core')
+    api project(':yasuo-core')
     api project(':yasuo-common')
 }
+
+bootJar.enabled = false
+jar.enabled = true
 
 description = 'yasuo-service'

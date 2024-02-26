@@ -1,11 +1,40 @@
 extend type Mutation {
-    createOrUpdateGroup(request: CreateOrUpdateGroupRequest): CreateOrUpdateGroupResponse
+    createOrUpdateGroup(request: CreateOrUpdateGroupRequest, avatarFile: Upload): CreateOrUpdateGroupResponse
+    deleteGroup(groupId: String!): DeleteGroupResponse
+    uploadAvatarGroup(groupId: String!, imageFile: Upload): Group
+    uploadBackGroundGroup(groupId: String!, backgroundFile: Upload): Group
+}
+
+extend type Query {
+    groups: GetOrSearchGroupsResponse
+    searchGroupByName(name: String): GetOrSearchGroupsResponse
+}
+interface ResponseBase {
+    code: Int
+    message: String
+}
+
+type GetOrSearchGroupsResponse implements ResponseBase{
+    code: Int
+    message: String
+    responseData: [Group]
+}
+
+type DeleteGroupResponse implements ResponseBase{
+    code: Int
+    message: String
 }
 
 type GroupProperties {
     status: GroupStatus
-    avatarUrl: String
-    backgroundUrl: String
+    avatar: Image
+    background: Image
+}
+
+type Image {
+    name: String
+    type: ImageType
+    url: String
 }
 
 type Group {
@@ -14,8 +43,8 @@ type Group {
     groupProperties: GroupProperties
     admin: UserDto
     createdBy: UserDto
-    createdDate: String
-    modifiedDate: String
+    createdDate: LocalDateTime
+    modifiedDate: LocalDateTime
 }
 
 type CreateOrUpdateGroupResponse {
@@ -26,8 +55,6 @@ type CreateOrUpdateGroupResponse {
 
 input GroupPropertiesRequest {
     status: String
-    avatarUrl: String
-    backgroundUrl: String
 }
 
 input CreateOrUpdateGroupRequest {
@@ -39,4 +66,10 @@ input CreateOrUpdateGroupRequest {
 enum GroupStatus {
     PUBLIC
     PRIVATE
+}
+
+enum ImageType {
+    PNG
+    JPEG
+    JPG
 }
